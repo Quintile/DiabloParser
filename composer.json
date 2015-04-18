@@ -1,0 +1,25 @@
+{
+    "name": "excessive/diablo-parser",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jordan Grieve",
+            "email": "quintilex@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "paquettg/php-html-parser": "~1"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/classes"
+        ],
+        "psr-0": {
+            "Excessive\\DiabloParser\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
