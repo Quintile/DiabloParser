@@ -8,7 +8,11 @@ class DiabloParser
 {
 	protected $url;
 
+	protected $type;
+	protected $level;
+	protected $class;
 	protected $name;
+	protected $seasonal;
 
 	protected $life;
 	protected $damage;
@@ -22,6 +26,9 @@ class DiabloParser
 
 	public function __construct($url)
 	{
+		if(!filter_var($url, FILTER_VALIDATE_URL))
+			throw new \Exception('Invalid URL supplied');
+		
 		$this->url = $url;
 	}
 
@@ -31,6 +38,12 @@ class DiabloParser
 
 		$dom = new Dom();
 		$dom->load($source);
+
+		$this->type = $dom->find('strong.d3-color-hardcore')->text ? 'hardcore' : 'softcore';
+		$this->seasonal = $dom->find('strong.d3-color-seasonal')->text ? true : false;
+		
+		$this->level = (int) $dom->find('h2.class a span strong')->text;
+		$this->class = trim($dom->find('h2.class a span')->text);
 
 		$this->name = $dom->find('div.profile-sheet h2.name')->text;
 
@@ -43,6 +56,7 @@ class DiabloParser
 		$this->vit = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-vitality-hero] span.value')->text;
 		$this->dex = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dexterity-hero] span.value')->text;
 
+		dd($this);
 		return true;
 	}
 
