@@ -8,11 +8,17 @@ class DiabloParser
 {
 	protected $url;
 
+	protected $name;
+
 	protected $life;
 	protected $damage;
 	protected $toughness;
 	protected $recovery;
 
+	protected $str;
+	protected $int;
+	protected $vit;
+	protected $dex;
 
 	public function __construct($url)
 	{
@@ -26,11 +32,18 @@ class DiabloParser
 		$dom = new Dom();
 		$dom->load($source);
 
+		$this->name = $dom->find('div.profile-sheet h2.name')->text;
+
 		$this->life = (int) $this->convertLife($dom->find('.resource-life span.value')->text);
 		$this->damage = (double) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dps-hero] span.value')->text;
 		$this->toughness = (int) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-toughness-hero] span.value')->text;
 		$this->recovery = (int) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-healing-hero] span.value')->text;
-		dd($this);
+		$this->str = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-strength-hero] span.value')->text;
+		$this->int = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-intelligence-hero] span.value')->text;
+		$this->vit = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-vitality-hero] span.value')->text;
+		$this->dex = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dexterity-hero] span.value')->text;
+
+		return true;
 	}
 
 	private function convertLife($value)
