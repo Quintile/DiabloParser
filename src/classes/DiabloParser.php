@@ -56,7 +56,6 @@ class DiabloParser
 		$this->vit = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-vitality-hero] span.value')->text;
 		$this->dex = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dexterity-hero] span.value')->text;
 
-		dd($this);
 		return true;
 	}
 
