@@ -9,6 +9,10 @@ class DiabloParser
 	protected $url;
 
 	protected $life;
+	protected $damage;
+	protected $toughness;
+	protected $recovery;
+
 
 	public function __construct($url)
 	{
@@ -22,7 +26,11 @@ class DiabloParser
 		$dom = new Dom();
 		$dom->load($source);
 
-		$this->life = $this->convertLife($dom->find('.resource-life span.value')->text);
+		$this->life = (int) $this->convertLife($dom->find('.resource-life span.value')->text);
+		$this->damage = (double) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dps-hero] span.value')->text;
+		$this->toughness = (int) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-toughness-hero] span.value')->text;
+		$this->recovery = (int) $dom->find('ul.attributes-core li[data-tooltip=#tooltip-healing-hero] span.value')->text;
+		dd($this);
 	}
 
 	private function convertLife($value)
