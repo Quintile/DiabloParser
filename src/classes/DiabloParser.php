@@ -88,7 +88,7 @@ class DiabloParser
 			$results[] = $hero;
 		}
 
-		dd($results);
+		return $results;
 	}
 
 	private function extractClass($string)
