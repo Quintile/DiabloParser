@@ -59,6 +59,43 @@ class DiabloParser
 		return true;
 	}
 
+	public function getCharacters()
+	{
+		$source = file_get_contents($this->url);
+
+		$dom = new Dom();
+		$dom->load($source);
+
+		$heroes = $dom->find('ul.hero-tabs li');
+		$results = array();
+		foreach($heroes as $h)
+		{
+			$data = explode(' ', $h->find('a')->getAttribute('class'));
+			if(count($data) <= 1)
+				continue;
+
+			$class = $this->extractClass($data[1]);
+	
+			$hero = new DiabloHero($class);
+			$hero->name = $h->find('span.name')->text;
+			if(is_null($hero->name))
+				continue;
+
+			$hero->level = (int)$h->find('span.level')->text;
+
+			$hero->hardcore = (count($data) == 3 && $data[2] !== "") ? true : false;
+
+			$results[] = $hero;
+		}
+
+		dd($results);
+	}
+
+	private function extractClass($string)
+	{
+		return ucwords(str_replace('-', ' ', substr($string, 0, strrpos($string, '-'))));
+	}
+
 	private function convertLife($value)
 	{
 		$numerals = (double)substr($value, 0, -1);
