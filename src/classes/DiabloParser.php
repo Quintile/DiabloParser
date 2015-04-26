@@ -34,6 +34,12 @@ class DiabloParser
 		$this->url = $url;
 	}
 
+	public static function parseHero($battleTag, $hero_id)
+	{
+		$source = file_get_contents('http://us.battle.net/api/d3/profile/'.$battleTag.'/hero/'.$hero_id);
+		dd($source);
+	}
+
 	public function getHero()
 	{
 		$source = @file_get_contents($this->url);
