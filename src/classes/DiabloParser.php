@@ -37,11 +37,32 @@ class DiabloParser
 	public static function parseHero($battleTag, $hero_id)
 	{
 		$source = file_get_contents('http://us.battle.net/api/d3/profile/'.$battleTag.'/hero/'.$hero_id);
-		dd($source);
+		$data = json_decode($source);
+	
+		$hero = new DiabloHero();
+		$hero->hardcore = $data->hardcore;
+		$hero->seasonal = $data->seasonal;
+
+		$hero->level = $data->level;
+		$hero->class = $data->class;
+		$hero->name = $data->name;
+		$hero->gender = $data->gender;
+		$hero->life = $data->stats->life;
+		$hero->damage = $data->stats->damage;
+		$hero->toughness = $data->stats->toughness;
+		$hero->recovery = $data->stats->healing;
+		$hero->str = $data->stats->strength;
+		$hero->int = $data->stats->intelligence;
+		$hero->dex = $data->stats->dexterity;
+		$hero->vit = $data->stats->vitality;
+		$hero->lastUpdated = new \DateTime("@".$data->{'last-updated'});
+		return $hero;
+	
 	}
 
 	public function getHero()
 	{
+		
 		$source = @file_get_contents($this->url);
 		if(!$source)
 			return false;
@@ -68,6 +89,7 @@ class DiabloParser
 		$hero->vit = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-vitality-hero] span.value')->text;
 		$hero->dex = $dom->find('ul.attributes-core li[data-tooltip=#tooltip-dexterity-hero] span.value')->text;
 		$hero->lastUpdated = $this->parseUpdated($dom->find('p.last-updated')->text);
+	
 		return $hero;
 	}
 
