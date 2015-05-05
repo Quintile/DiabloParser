@@ -61,6 +61,7 @@ class DiabloParser
 	
 	}
 
+	/*
 	public function getHero()
 	{
 		
@@ -92,7 +93,7 @@ class DiabloParser
 		$hero->lastUpdated = $this->parseUpdated($dom->find('p.last-updated')->text);
 	
 		return $hero;
-	}
+	}*/
 
 	public function getCareer()
 	{
