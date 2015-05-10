@@ -61,7 +61,7 @@ class DiabloParser
 	
 	}
 
-	/*
+	/**
 	public function getHero()
 	{
 		
